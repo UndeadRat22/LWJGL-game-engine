@@ -5,7 +5,11 @@ import static org.lwjgl.glfw.GLFW.glfwGetPrimaryMonitor;
 public class Main {
 
     public static void main(String[] args) {
-        Display.createDisplay(1280, 720);
-        Display.close();
+        Display display = new Display(1280, 720, "window");
+        while (!display.isCloseRequested())
+        {
+            display.update();
+        }
+        display.close();
     }
 }
