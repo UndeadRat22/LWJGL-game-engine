@@ -51,7 +51,7 @@ public class Loader {
         return buffer;
     }
 
-    public static void cleanUpData(){
+    public static void discardData(){
         vaos.forEach((vao) -> { glDeleteVertexArrays(vao); });
         vbos.forEach((vbo) -> { glDeleteBuffers(vbo); });
     }

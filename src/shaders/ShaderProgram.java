@@ -22,6 +22,26 @@ public abstract class ShaderProgram {
 
     protected abstract void bindAttributes();
 
+    protected void bindAttribute(int attribute, String variableName){
+        glBindAttribLocation(programID, attribute, variableName);
+    }
+
+    public void start(){
+        glUseProgram(programID);
+    }
+    public  void stop(){
+        glUseProgram(0);
+    }
+
+    public void discardProgram(){
+        stop();
+        glDetachShader(programID, vertexShaderID);
+        glDetachShader(programID, fragmentShaderID);
+        glDeleteShader(vertexShaderID);
+        glDeleteShader(fragmentShaderID);
+        glDeleteProgram(programID);
+    }
+
     private static int loadShader(String file, int type) {
         StringBuilder src = new StringBuilder();
         try {
