@@ -4,6 +4,8 @@ import mesh.Mesh;
 import engine.Renderer;
 import mesh.Model;
 import mesh.textures.Texture;
+import objects.GameObject;
+import org.joml.Vector3f;
 import shaders.StaticShader;
 
 public class Main {
@@ -34,11 +36,14 @@ public class Main {
         Model model = new Model(mesh, texture);
         Renderer renderer = new Renderer();
         StaticShader shader = new StaticShader();
+
+        GameObject go = new GameObject(model, new Vector3f(0, 0, 0),new Vector3f(0, 0, 0),new Vector3f(1, 1, 1));
+
         while (!display.isCloseRequested())
         {
             renderer.prepare();
             shader.start();
-            renderer.render(model);
+            renderer.render(go,shader);
             shader.stop();
             display.update();
         }

@@ -1,10 +1,8 @@
 package shaders;
 
 import org.joml.Matrix4f;
+import org.joml.Vector3f;
 import org.lwjgl.BufferUtils;
-import org.lwjgl.assimp.AIMatrix4x4;
-import org.lwjgl.ovr.OVRMatrix4f;
-import primitives.Vector3f;
 
 import java.io.*;
 import java.nio.FloatBuffer;
