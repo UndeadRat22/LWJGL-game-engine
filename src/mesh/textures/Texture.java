@@ -1,4 +1,4 @@
-package textures;
+package mesh.textures;
 
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;

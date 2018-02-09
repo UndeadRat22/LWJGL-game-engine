@@ -1,12 +1,11 @@
-package engine;
+package mesh;
 
+import mesh.Mesh;
+import mesh.textures.Texture;
 import org.lwjgl.BufferUtils;
 
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,11 +21,21 @@ public class Loader {
     private static List<Integer> vbos = new ArrayList<Integer>();
     private static List<Integer> textures = new ArrayList<Integer>();
 
-    public static Mesh loadToVAO(float[] vertices){
+    public static Mesh loadToVAO(float[] vertices, float[] textureUV, int[] triangles){
         int vao = createVAO();
+        bindIndicesBuffer(triangles);
         storeDataInAttributeList(0,3, vertices, false);
+        storeDataInAttributeList(1,2, textureUV, true);
         glBindVertexArray(0);                                   /*unbind the currently bound vao*/
-        return new Mesh(vao, vertices.length/3);
+        return new Mesh(vao, triangles.length);
+    }
+
+    private static void bindIndicesBuffer(int[] triangles){
+        int vboId = glGenBuffers();
+        vbos.add(vboId);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vboId);
+        IntBuffer buffer = createIntBuffer(triangles);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, buffer, GL_STATIC_DRAW);
     }
 
     ///Creates and binds a vertex array object
@@ -35,6 +44,13 @@ public class Loader {
         vaos.add(vao);
         glBindVertexArray(vao);
         return vao;
+    }
+
+    public static Texture loadTexture(String fileName)
+    {
+        Texture texture = new Texture(fileName);
+        textures.add(texture.getTextureID());
+        return texture;
     }
 
     ///Stores data in an attribute list of the currently bound vao
@@ -46,6 +62,13 @@ public class Loader {
         glBufferData(GL_ARRAY_BUFFER, buffer, GL_STATIC_DRAW);                  /*store the data*/
         glVertexAttribPointer(attributeId, dataLenght, GL_FLOAT, normalized,0,0);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
+    }
+
+    private static IntBuffer createIntBuffer(int[] data){
+        IntBuffer buffer = BufferUtils.createIntBuffer(data.length);
+        buffer.put(data);
+        buffer.flip();
+        return buffer;
     }
 
     private static FloatBuffer createFloatBuffer(float[] data)

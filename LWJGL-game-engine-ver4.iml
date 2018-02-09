@@ -20,5 +20,6 @@
         <jarDirectory url="file://$MODULE_DIR$/libraries" recursive="false" type="SOURCES" />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="slick-util" level="project" />
   </component>
 </module>

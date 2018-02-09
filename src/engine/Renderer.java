@@ -1,6 +1,10 @@
 package engine;
 
+import mesh.Mesh;
+import mesh.TexturedMesh;
+
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL13.*;
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.*;
 
@@ -9,10 +13,15 @@ public class Renderer {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
-    public void render(Mesh mesh){
+    public void render(TexturedMesh model){
+        Mesh mesh = model.getMesh();
         glBindVertexArray(mesh.getVao());
         glEnableVertexAttribArray(0);
-        glDrawArrays(GL_TRIANGLES, 0, mesh.getVertexCount());
+        glEnableVertexAttribArray(1);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, model.getTexture().getTextureID());
+        glDrawElements(GL_TRIANGLES, mesh.getTriangles(), GL_UNSIGNED_INT, 0);
+        glDisableVertexAttribArray(1);
         glDisableVertexAttribArray(0);
         glBindVertexArray(0);
     }
