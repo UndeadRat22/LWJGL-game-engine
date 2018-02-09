@@ -2,6 +2,10 @@ package engine;
 
 import org.lwjgl.BufferUtils;
 
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +20,7 @@ public class Loader {
 
     private static List<Integer> vaos = new ArrayList<Integer>();
     private static List<Integer> vbos = new ArrayList<Integer>();
+    private static List<Integer> textures = new ArrayList<Integer>();
 
     public static Mesh loadToVAO(float[] vertices){
         int vao = createVAO();
@@ -54,6 +59,7 @@ public class Loader {
     public static void discardData(){
         vaos.forEach((vao) -> { glDeleteVertexArrays(vao); });
         vbos.forEach((vbo) -> { glDeleteBuffers(vbo); });
+        textures.forEach((texture)->{glDeleteTextures(texture);});
     }
 
 }
