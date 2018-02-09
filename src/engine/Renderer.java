@@ -18,15 +18,12 @@ public class Renderer {
     private static final float NEAR_PLANE = .1f;
     private static final float FAR_PLANE = 1000.0f;
 
-    private Matrix4f projectionMatrix;
-
     private Display display;
 
     public Renderer(Display display, StaticShader shader){
         this.display = display;
-        createProjectionMatrix();
         shader.start();
-        shader.loadProjectionMatrix(projectionMatrix);
+        shader.loadProjectionMatrix(createProjectionMatrix());
         shader.stop();
     }
 
@@ -42,7 +39,7 @@ public class Renderer {
         glEnableVertexAttribArray(1);
         Matrix4f transformationMatrix =
                 Maths.createTransformationMatrix(gameObject.getTransform());
-        shader.loadTransformationMatix(transformationMatrix);
+        shader.loadTransformationMatrix(transformationMatrix);
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, model.getTexture().getTextureID());
         glDrawElements(GL_TRIANGLES, mesh.getTriangles(), GL_UNSIGNED_INT, 0);
@@ -52,8 +49,8 @@ public class Renderer {
 
     }
 
-    private void createProjectionMatrix(){
-        projectionMatrix = new Matrix4f();
+    private Matrix4f createProjectionMatrix(){
+        Matrix4f projectionMatrix = new Matrix4f();
         //System.out.println("width: " + display.getDimensions().x + ", height: " + display.getDimensions().y);
         float aspecpectRatio = (float) display.getDimensions().x / display.getDimensions().y;
         float yscale = (float) ((1f/Math.tan(Math.toRadians((FOV/2f))))*aspecpectRatio);
@@ -67,5 +64,6 @@ public class Renderer {
         projectionMatrix.m23(-1);
         projectionMatrix.m32(-(2 * FAR_PLANE * NEAR_PLANE)/frustumLen);
         projectionMatrix.m33(0);
+        return projectionMatrix;
     }
 }

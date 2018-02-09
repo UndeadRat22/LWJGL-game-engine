@@ -43,7 +43,7 @@ public class Transform {
         this.scale = scale;
     }
 
-    public static void Translate(Transform t, Vector3f translation){
+    public static void translate(Transform t, Vector3f translation){
         t.position.x += translation.x;
         t.position.y += translation.y;
         t.position.z += translation.z;

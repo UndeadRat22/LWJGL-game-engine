@@ -4,10 +4,12 @@ import mesh.Mesh;
 import engine.Renderer;
 import mesh.Model;
 import mesh.textures.Texture;
+import objects.Camera;
 import objects.GameObject;
 import org.joml.Vector3f;
 import primitives.Transform;
 import shaders.StaticShader;
+import utility.Maths;
 
 public class Main {
 
@@ -37,6 +39,8 @@ public class Main {
         Model model = new Model(mesh, texture);
         StaticShader shader = new StaticShader();
         Renderer renderer = new Renderer(display, shader);
+        Camera camera = new Camera();
+        //display.setWindowKeyInputCallback(camera.getGlfwKeyCallback());
 
         GameObject go = new GameObject(model,
                 new Vector3f(0, 0, -1),
@@ -46,10 +50,11 @@ public class Main {
         while (!display.isCloseRequested())
         {
             rotation.y += 2f;
-            Transform.Translate(go.getTransform(), new Vector3f(0f, 0, -0.02f));
+            Transform.translate(go.getTransform(), new Vector3f(0f, 0, -0.02f));
             go.getTransform().setRotation(rotation);
             renderer.prepare();
             shader.start();
+            shader.loadProjectionMatrix(Maths.createViewMatrix(camera));
             renderer.render(go,shader);
             shader.stop();
             display.update();

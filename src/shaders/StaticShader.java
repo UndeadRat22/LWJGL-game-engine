@@ -9,6 +9,7 @@ public class StaticShader extends ShaderProgram{
 
     private int transformationMatrix;
     private int projectionMatrix;
+    private int viewMatrix;
 
     public StaticShader() {
         super(VERTEX_FILENAME, FRAGMENT_FILENAME);
@@ -18,6 +19,7 @@ public class StaticShader extends ShaderProgram{
     protected void getAllUniformLocations() {
         transformationMatrix = super.getUniformLocation("transformationMatrix");
         projectionMatrix = super.getUniformLocation("projectionMatrix");
+        viewMatrix = super.getUniformLocation("viewMatrix");
     }
 
     @Override
@@ -26,11 +28,15 @@ public class StaticShader extends ShaderProgram{
         super.bindAttribute(1, "textureUV");
     }
 
-    public void loadTransformationMatix(Matrix4f matrix){
-        super.loadMatrix(transformationMatrix, matrix);
+    public void loadTransformationMatrix(Matrix4f trans){
+        super.loadMatrix(transformationMatrix, trans);
     }
 
     public void loadProjectionMatrix(Matrix4f proj){
         super.loadMatrix(projectionMatrix, proj);
+    }
+
+    public void loadViewMatrix(Matrix4f view){
+        super.loadMatrix(viewMatrix, view);
     }
 }
