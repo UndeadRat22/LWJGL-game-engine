@@ -37,7 +37,7 @@ public class Main {
         Renderer renderer = new Renderer();
         StaticShader shader = new StaticShader();
 
-        GameObject go = new GameObject(model, new Vector3f(0, 0, 0),new Vector3f(0, 0, 0),new Vector3f(1, 1, 1));
+        GameObject go = new GameObject(model, new Vector3f(-1, 0, 0),new Vector3f(0, 0, 0),new Vector3f(1, 1, 1));
 
         while (!display.isCloseRequested())
         {
