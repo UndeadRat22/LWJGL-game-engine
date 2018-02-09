@@ -1,7 +1,7 @@
 package engine;
 
 import mesh.Mesh;
-import mesh.TexturedMesh;
+import mesh.Model;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL13.*;
@@ -13,7 +13,7 @@ public class Renderer {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
-    public void render(TexturedMesh model){
+    public void render(Model model){
         Mesh mesh = model.getMesh();
         glBindVertexArray(mesh.getVao());
         glEnableVertexAttribArray(0);

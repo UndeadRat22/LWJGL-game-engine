@@ -2,7 +2,7 @@ import engine.Display;
 import mesh.Loader;
 import mesh.Mesh;
 import engine.Renderer;
-import mesh.TexturedMesh;
+import mesh.Model;
 import mesh.textures.Texture;
 import shaders.StaticShader;
 
@@ -29,9 +29,9 @@ public class Main {
         };
 
         Display display = new Display(1280, 720, "window");
-        Mesh mesh = Loader.loadToVAO(vertices, uv, indices);
+        Mesh mesh = new Mesh(vertices, uv, indices);
         Texture texture = new Texture("resources/test_texture.png");
-        TexturedMesh model = new TexturedMesh(mesh, texture);
+        Model model = new Model(mesh, texture);
         Renderer renderer = new Renderer();
         StaticShader shader = new StaticShader();
         while (!display.isCloseRequested())

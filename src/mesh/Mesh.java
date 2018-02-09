@@ -5,11 +5,11 @@ public class Mesh {
     private int vao;
     private int triangles;
 
-    /*public Mesh(float[] vertices, int[] triangles) {
-        Mesh temp = Loader.loadToVAO(vertices, triangles);
+    public Mesh(float[] vertices, float[] uv, int[] triangles) {
+        Mesh temp = Loader.loadToVAO(vertices, uv, triangles);
         this.vao = temp.vao;
         this.triangles = temp.triangles;
-    }*/
+    }
 
     public Mesh(int vao, int triangles) {
         this.vao = vao;
