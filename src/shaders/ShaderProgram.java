@@ -31,11 +31,12 @@ public abstract class ShaderProgram {
     protected abstract void getAllUniformLocations();
     protected abstract void bindAttributes();
 
-    protected int getUniformLocation(String unfiformName) {
-        return glGetUniformLocation(programID, unfiformName);
+    protected int getUniformLocation(String uniformName) {
+        return glGetUniformLocation(programID, uniformName);
     }
 
     protected void loadMatrix(int location, Matrix4f matrix){
+
         glUniformMatrix4fv(location, false, matrix.get(matrixBuffer));
     }
 

@@ -4,7 +4,6 @@ import mesh.Mesh;
 import mesh.Model;
 import objects.GameObject;
 import org.joml.Matrix4f;
-import primitives.Transform;
 import shaders.StaticShader;
 import utility.Maths;
 
@@ -14,6 +13,23 @@ import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.*;
 
 public class Renderer {
+
+    private static final float FOV = 70.0f;
+    private static final float NEAR_PLANE = .1f;
+    private static final float FAR_PLANE = 1000.0f;
+
+    private Matrix4f projectionMatrix;
+
+    private Display display;
+
+    public Renderer(Display display, StaticShader shader){
+        this.display = display;
+        createProjectionMatrix();
+        shader.start();
+        shader.loadProjectionMatrix(projectionMatrix);
+        shader.stop();
+    }
+
     public void prepare(){
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
@@ -26,12 +42,30 @@ public class Renderer {
         glEnableVertexAttribArray(1);
         Matrix4f transformationMatrix =
                 Maths.createTransformationMatrix(gameObject.getTransform());
-        shader.loadTransformmationMatrix(transformationMatrix);
+        shader.loadTransformationMatix(transformationMatrix);
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, model.getTexture().getTextureID());
         glDrawElements(GL_TRIANGLES, mesh.getTriangles(), GL_UNSIGNED_INT, 0);
         glDisableVertexAttribArray(1);
         glDisableVertexAttribArray(0);
         glBindVertexArray(0);
+
+    }
+
+    private void createProjectionMatrix(){
+        projectionMatrix = new Matrix4f();
+        //System.out.println("width: " + display.getDimensions().x + ", height: " + display.getDimensions().y);
+        float aspecpectRatio = (float) display.getDimensions().x / display.getDimensions().y;
+        float yscale = (float) ((1f/Math.tan(Math.toRadians((FOV/2f))))*aspecpectRatio);
+        float xscale = yscale / aspecpectRatio;
+        float frustumLen = FAR_PLANE - NEAR_PLANE;
+
+        projectionMatrix = new Matrix4f();
+        projectionMatrix.m00(xscale);
+        projectionMatrix.m11(yscale);
+        projectionMatrix.m22(-(FAR_PLANE + NEAR_PLANE)/frustumLen);
+        projectionMatrix.m23(-1);
+        projectionMatrix.m32(-(2 * FAR_PLANE * NEAR_PLANE)/frustumLen);
+        projectionMatrix.m33(0);
     }
 }

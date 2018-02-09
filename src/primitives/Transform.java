@@ -46,7 +46,7 @@ public class Transform {
     public static void Translate(Transform t, Vector3f translation){
         t.position.x += translation.x;
         t.position.y += translation.y;
-        t.rotation.z += translation.z;
+        t.position.z += translation.z;
     }
 
     public static void Rotate(Vector3f eulerRotation){

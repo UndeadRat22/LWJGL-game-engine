@@ -1,5 +1,6 @@
 package engine;
 
+import org.joml.Vector2i;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
@@ -46,5 +47,11 @@ public class Display
 
     public boolean isCloseRequested(){
         return glfwWindowShouldClose(window);
+    }
+
+    public Vector2i getDimensions(){
+        int[] width = new int[1], height = new int[1];
+        glfwGetWindowSize(window, width, height);
+        return new Vector2i(width[0], height[0]);
     }
 }
