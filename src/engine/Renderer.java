@@ -29,10 +29,12 @@ public class Renderer {
         shader.start();
         shader.loadProjectionMatrix(createProjectionMatrix());
         shader.stop();
+        glEnable(GL_DEPTH_TEST);
+        glEnable(GL_CULL_FACE);
+        glCullFace(GL_BACK);
     }
 
     public void prepare(){
-        glEnable(GL_DEPTH_TEST);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
@@ -58,14 +60,12 @@ public class Renderer {
     }
 
     private Matrix4f createProjectionMatrix(){
-        Matrix4f projectionMatrix = new Matrix4f();
-        //System.out.println("width: " + display.getDimensions().x + ", height: " + display.getDimensions().y);
         float aspecpectRatio = (float) display.getDimensions().x / display.getDimensions().y;
         float yscale = (float) ((1f/Math.tan(Math.toRadians((FOV/2f))))*aspecpectRatio);
         float xscale = yscale / aspecpectRatio;
         float frustumLen = FAR_PLANE - NEAR_PLANE;
 
-        projectionMatrix = new Matrix4f();
+        Matrix4f projectionMatrix = new Matrix4f();
         projectionMatrix.m00(xscale);
         projectionMatrix.m11(yscale);
         projectionMatrix.m22(-(FAR_PLANE + NEAR_PLANE)/frustumLen);

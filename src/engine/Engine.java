@@ -16,8 +16,8 @@ import utility.Maths;
 
 public class Engine
 {
-    private static final int WIDTH = 1280;
-    private static final int HEIGHT = 720;
+    private static final int WIDTH = 1920;
+    private static final int HEIGHT = 1080;
     private static final String TITLE = "ENGINE";
     private static final int FPS = 60;
 
@@ -49,7 +49,7 @@ public class Engine
     }
 
     private void init(){
-        display = new Display(WIDTH, HEIGHT, TITLE, FPS);
+        display = new Display(WIDTH, HEIGHT, TITLE + " " +WIDTH + "x" +HEIGHT, FPS);
         shader = new StaticShader();
         renderer = new Renderer(display, shader);
         display.setWindowKeyInputCallback(Input.getKeyCallback());
@@ -61,7 +61,7 @@ public class Engine
         if (isRunning) return;
         Texture texture = new Texture("resources/cruiser.png");
         Mesh mesh = ObjParser.parseObjMesh("resources/obj/cruiser.obj");
-        Model model = new Model(mesh, texture, new Material(1, 1));
+        Model model = new Model(mesh, texture, new Material(.1f, 1));
         GameObject cameraGo = new GameObject(
                 new Vector3f(0, 0, 0),
                 new Vector3f(0, 0, 0),
@@ -73,7 +73,7 @@ public class Engine
                 new Vector3f(1f, 1f, 1f));
         gameObject.addComponent(model);
         GameObject lightGo = new GameObject(
-                new Vector3f(0, 0, 0),
+                new Vector3f(0, 10, -10),
                 new Vector3f(0, 0, 0),
                 new Vector3f(0, 0, 0));
         light = (Light) lightGo.addComponent(new Light());

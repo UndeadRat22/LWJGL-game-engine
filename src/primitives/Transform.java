@@ -44,12 +44,10 @@ public class Transform {
     }
 
     public static void translate(Transform t, Vector3f translation){
-        t.position.x += translation.x;
-        t.position.y += translation.y;
-        t.position.z += translation.z;
+        t.position = t.position.add(translation);
     }
 
-    public static void Rotate(Vector3f eulerRotation){
-        //TODO: implement
+    public static void rotate(Transform t, Vector3f rotation){
+        t.rotation = t.rotation.add(rotation);
     }
 }

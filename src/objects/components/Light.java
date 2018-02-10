@@ -13,25 +13,9 @@ public class Light extends BaseComponent {
     public void start() {
 
     }
-    float xspeed = 3;
-    float yspeed = 2;
     @Override
-    public void update() {
-        Transform.translate(transform, new Vector3f(xspeed *
-                (float)Time.getDeltaTime(), yspeed *
-                (float)Time.getDeltaTime(), 0));
-        if (transform.getPosition().x > 5) {
-            xspeed = -3;
-        }
-        if (transform.getPosition().x < -5){
-            xspeed = 3;
-        }
-        if (transform.getPosition().y > 3) {
-            yspeed = -2;
-        }
-        if (transform.getPosition().y < -3){
-            yspeed = 2;
-        }
+    public void update(){
+
     }
 
     @Override

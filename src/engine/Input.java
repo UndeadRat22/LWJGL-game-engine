@@ -10,6 +10,7 @@ import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
 public class Input {
 
     private static boolean[] keys =  new boolean[65535];
+    private static Vector2f delta_mousePosition = new Vector2f();
     private static Vector2f mousePosition = new Vector2f();
 
     private static GLFWKeyCallback keyCallback = null;
@@ -28,6 +29,9 @@ public class Input {
         return cursorPositionCallback = new GLFWCursorPosCallback() {
             @Override
             public void invoke(long window, double xpos, double ypos) {
+                delta_mousePosition =
+                        new Vector2f((float)xpos - mousePosition.x,
+                        (float)ypos - mousePosition.y);
                 mousePosition.x = (float)xpos;
                 mousePosition.y = (float)ypos;
             }
@@ -40,5 +44,9 @@ public class Input {
 
     public static Vector2f getMousePosition(){
         return mousePosition;
+    }
+
+    public static Vector2f getMousePositionDelta(){
+        return delta_mousePosition;
     }
 }
