@@ -17,7 +17,7 @@ public class Display
     ///Also opens the window.
     ///To use in any context, need to have an update loop, while the window
     ///is not supposed to close.
-    public Display(int width, int height, String title){
+    public Display(int width, int height, String title, int maxFPS){
         if(!glfwInit())
             throw new IllegalStateException("Failed to initialize GLFW");
 
@@ -27,7 +27,7 @@ public class Display
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, 1);
-        glfwWindowHint(GLFW_REFRESH_RATE, 60);
+        glfwWindowHint(GLFW_REFRESH_RATE, maxFPS);
         glfwWindowHint(GLFW_VISIBLE, 0);
 
         window = glfwCreateWindow(width, height, title, 0, 0);

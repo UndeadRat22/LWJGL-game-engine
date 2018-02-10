@@ -9,10 +9,10 @@ import java.util.List;
 
 public class ObjParser {
 
-    public static Mesh parseObjMesh(String fileName) {
+    public static Mesh parseObjMesh(String filename) {
         FileReader fileReader = null;
         try {
-            fileReader = new FileReader(new File("resources/obj/" + fileName + ".obj"));
+            fileReader = new FileReader(new File(filename));
         } catch (FileNotFoundException e) {
             System.err.println("Couldn't load file!");
             e.printStackTrace();
