@@ -5,8 +5,9 @@ import mesh.Mesh;
 import mesh.Model;
 import mesh.ObjParser;
 import mesh.textures.Texture;
-import objects.Camera;
+import objects.components.Camera;
 import objects.GameObject;
+import objects.components.Light;
 import org.joml.Vector3f;
 import shaders.StaticShader;
 import utility.Maths;
@@ -18,6 +19,7 @@ public class Engine
     private static final String TITLE = "ENGINE";
     private static final int FPS = 60;
 
+    private Light light;
     private GameObject gameObject;
     private StaticShader shader;
     private Renderer renderer;
@@ -67,7 +69,12 @@ public class Engine
                 new Vector3f(0, 0, -5),
                 new Vector3f(0, 0, 0),
                 new Vector3f(1f, 1f, 1f));
-
+        GameObject lightGo = new GameObject(null,
+                new Vector3f(0, 0, 0),
+                new Vector3f(0, 0, 0),
+                new Vector3f(0, 0, 0));
+        light = new Light();
+        lightGo.addComponent(light);
         isRunning = true;
         boolean render = false;
         final double frameTime = 1.0 / FPS;
@@ -103,11 +110,13 @@ public class Engine
     }
 
     private void render(){
+        light.getGameObject().update();
         camera.getGameObject().update();
         gameObject.update();
         renderer.prepare();
         shader.start();
         shader.loadViewMatrix(Maths.createViewMatrix(camera));
+        shader.loadLight(light);
         renderer.render(gameObject ,shader);
         shader.stop();
         display.update();

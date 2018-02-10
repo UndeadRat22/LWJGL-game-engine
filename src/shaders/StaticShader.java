@@ -1,5 +1,6 @@
 package shaders;
 
+import objects.components.Light;
 import org.joml.Matrix4f;
 
 public class StaticShader extends ShaderProgram{
@@ -10,6 +11,8 @@ public class StaticShader extends ShaderProgram{
     private int transformationMatrix;
     private int projectionMatrix;
     private int viewMatrix;
+    private int lightPosition;
+    private int lightColour;
 
     public StaticShader() {
         super(VERTEX_FILENAME, FRAGMENT_FILENAME);
@@ -20,12 +23,20 @@ public class StaticShader extends ShaderProgram{
         transformationMatrix = super.getUniformLocation("transformationMatrix");
         projectionMatrix = super.getUniformLocation("projectionMatrix");
         viewMatrix = super.getUniformLocation("viewMatrix");
+        lightPosition = super.getUniformLocation("lightPosition");
+        lightColour = super.getUniformLocation("lightColour");
     }
 
     @Override
     protected void bindAttributes() {
         super.bindAttribute(0, "position");
         super.bindAttribute(1, "textureUV");
+        super.bindAttribute(2, "normal");
+    }
+
+    public void loadLight(Light light){
+        super.loadVector3f(lightPosition, light.getTransform().getPosition());
+        super.loadVector3f(lightColour, light.getColour());
     }
 
     public void loadTransformationMatrix(Matrix4f trans){

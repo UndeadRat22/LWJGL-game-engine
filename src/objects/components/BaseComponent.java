@@ -1,5 +1,6 @@
-package objects;
+package objects.components;
 
+import objects.GameObject;
 import primitives.Transform;
 
 public abstract class BaseComponent {

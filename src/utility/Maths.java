@@ -1,6 +1,6 @@
 package utility;
 
-import objects.Camera;
+import objects.components.Camera;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import primitives.Transform;

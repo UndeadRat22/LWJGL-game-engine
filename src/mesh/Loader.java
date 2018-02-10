@@ -21,11 +21,12 @@ public class Loader {
     private static List<Integer> vbos = new ArrayList<Integer>();
     private static List<Integer> textures = new ArrayList<Integer>();
 
-    public static Mesh loadToVAO(float[] vertices, float[] textureUV, int[] triangles){
+    public static Mesh loadToVAO(float[] vertices, float[] textureUV, float[] normals, int[] triangles){
         int vao = createVAO();
         bindIndicesBuffer(triangles);
         storeDataInAttributeList(0,3, vertices, false);
         storeDataInAttributeList(1,2, textureUV, true);
+        storeDataInAttributeList(2,3,normals, true);
         glBindVertexArray(0);                                   /*unbind the currently bound vao*/
         return new Mesh(vao, triangles.length);
     }

@@ -1,6 +1,7 @@
 package objects;
 
 import mesh.Model;
+import objects.components.BaseComponent;
 import org.joml.Vector3f;
 import primitives.Transform;
 

@@ -38,12 +38,14 @@ public class Renderer {
         glBindVertexArray(mesh.getVao());
         glEnableVertexAttribArray(0);
         glEnableVertexAttribArray(1);
+        glEnableVertexAttribArray(2);
         Matrix4f transformationMatrix =
                 Maths.createTransformationMatrix(gameObject.getTransform());
         shader.loadTransformationMatrix(transformationMatrix);
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, model.getTexture().getTextureID());
         glDrawElements(GL_TRIANGLES, mesh.getTriangles(), GL_UNSIGNED_INT, 0);
+        glDisableVertexAttribArray(2);
         glDisableVertexAttribArray(1);
         glDisableVertexAttribArray(0);
         glBindVertexArray(0);

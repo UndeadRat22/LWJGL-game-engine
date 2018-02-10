@@ -81,7 +81,7 @@ public class ObjParser {
             trianglesArray[i] = triangles.get(i);
         }
 
-        return new Mesh(verticesArray, uvsArray, trianglesArray);
+        return new Mesh(verticesArray, uvsArray, normalsArray, trianglesArray);
     }
 
     private static void convertVertex(String[] vertexData, List<Integer> triangles, List<Vector2f> uvs,

@@ -1,7 +1,8 @@
-package objects;
+package objects.components;
 
 import engine.Input;
 import engine.Time;
+import objects.components.BaseComponent;
 import org.joml.Vector3f;
 import primitives.Transform;
 

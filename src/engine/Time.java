@@ -8,7 +8,7 @@ public class Time {
         return System.nanoTime();
     }
 
-    public static double getDeltaTime(){
+    public static double getDeltaTime() {
         return delta;
     }
 
