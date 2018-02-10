@@ -1,6 +1,7 @@
 package engine;
 
 import mesh.Loader;
+import mesh.Material;
 import mesh.Mesh;
 import objects.components.BaseComponent;
 import objects.components.Model;
@@ -60,7 +61,7 @@ public class Engine
         if (isRunning) return;
         Texture texture = new Texture("resources/cruiser.png");
         Mesh mesh = ObjParser.parseObjMesh("resources/obj/cruiser.obj");
-        Model model = new Model(mesh, texture);
+        Model model = new Model(mesh, texture, new Material(1, 1));
         GameObject cameraGo = new GameObject(
                 new Vector3f(0, 0, 0),
                 new Vector3f(0, 0, 0),
@@ -75,8 +76,7 @@ public class Engine
                 new Vector3f(0, 0, 0),
                 new Vector3f(0, 0, 0),
                 new Vector3f(0, 0, 0));
-        light = new Light();
-        lightGo.addComponent(light);
+        light = (Light) lightGo.addComponent(new Light());
         isRunning = true;
         boolean render = false;
         final double frameTime = 1.0 / FPS;

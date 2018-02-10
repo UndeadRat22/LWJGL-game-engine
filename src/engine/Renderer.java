@@ -1,11 +1,15 @@
 package engine;
 
+import mesh.Material;
 import mesh.Mesh;
+import mesh.textures.Texture;
 import objects.components.Model;
 import objects.GameObject;
 import org.joml.Matrix4f;
 import shaders.StaticShader;
 import utility.Maths;
+
+import javax.xml.soap.Text;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL13.*;
@@ -42,6 +46,7 @@ public class Renderer {
         Matrix4f transformationMatrix =
                 Maths.createTransformationMatrix(gameObject.getTransform());
         shader.loadTransformationMatrix(transformationMatrix);
+        shader.loadMaterial(model.getMaterial());
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, model.getTexture().getTextureID());
         glDrawElements(GL_TRIANGLES, mesh.getTriangles(), GL_UNSIGNED_INT, 0);

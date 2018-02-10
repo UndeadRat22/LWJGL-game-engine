@@ -39,6 +39,11 @@ public class Light extends BaseComponent {
 
     }
 
+    @Override
+    public void onAdd() {
+
+    }
+
     public void setColour(Vector3f colour){
         this.colour = colour;
     }

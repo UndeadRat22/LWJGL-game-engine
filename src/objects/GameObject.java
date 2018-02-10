@@ -52,6 +52,7 @@ public class GameObject {
     public BaseComponent addComponent(BaseComponent component){
         component.setGameObject(this);
         components.add(component);
+        component.onAdd();
         return component;
     }
 

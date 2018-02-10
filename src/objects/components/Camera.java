@@ -37,4 +37,9 @@ public class Camera extends BaseComponent
     public void dispose() {
 
     }
+
+    @Override
+    public void onAdd() {
+
+    }
 }

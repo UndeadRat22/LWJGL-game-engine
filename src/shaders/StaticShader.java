@@ -1,6 +1,7 @@
 package shaders;
 
 import objects.components.Light;
+import mesh.Material;
 import org.joml.Matrix4f;
 
 public class StaticShader extends ShaderProgram{
@@ -13,6 +14,8 @@ public class StaticShader extends ShaderProgram{
     private int viewMatrix;
     private int lightPosition;
     private int lightColour;
+    private int shineDamper;
+    private int reflectivity;
 
     public StaticShader() {
         super(VERTEX_FILENAME, FRAGMENT_FILENAME);
@@ -25,6 +28,8 @@ public class StaticShader extends ShaderProgram{
         viewMatrix = super.getUniformLocation("viewMatrix");
         lightPosition = super.getUniformLocation("lightPosition");
         lightColour = super.getUniformLocation("lightColour");
+        shineDamper = super.getUniformLocation("shineDamper");
+        reflectivity = super.getUniformLocation("reflectivity");
     }
 
     @Override
@@ -32,6 +37,11 @@ public class StaticShader extends ShaderProgram{
         super.bindAttribute(0, "position");
         super.bindAttribute(1, "textureUV");
         super.bindAttribute(2, "normal");
+    }
+
+    public void loadMaterial(Material material){
+        super.loadFloat(shineDamper, material.shineDampening);
+        super.loadFloat(reflectivity, material.reflectivity);
     }
 
     public void loadLight(Light light){
