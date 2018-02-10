@@ -1,6 +1,7 @@
 package engine;
 
 import org.joml.Vector2i;
+import org.lwjgl.glfw.GLFWCursorPosCallback;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWVidMode;
@@ -58,6 +59,10 @@ public class Display
 
     public void setWindowKeyInputCallback(GLFWKeyCallback callback){
         glfwSetKeyCallback(window, callback);
+    }
+
+    public void setWindowMouseMoveCallback(GLFWCursorPosCallback callback){
+        glfwSetCursorPosCallback(window, callback);
     }
 
     ///centers the window on the primary monitor

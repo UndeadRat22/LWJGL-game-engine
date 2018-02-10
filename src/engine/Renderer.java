@@ -1,7 +1,7 @@
 package engine;
 
 import mesh.Mesh;
-import mesh.Model;
+import objects.components.Model;
 import objects.GameObject;
 import org.joml.Matrix4f;
 import shaders.StaticShader;
@@ -33,7 +33,7 @@ public class Renderer {
     }
 
     public void render(GameObject gameObject, StaticShader shader){
-        Model model = gameObject.getModel();
+        Model model = (Model)gameObject.getComponent(Model.class);
         Mesh mesh = model.getMesh();
         glBindVertexArray(mesh.getVao());
         glEnableVertexAttribArray(0);

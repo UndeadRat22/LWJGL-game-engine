@@ -32,4 +32,9 @@ public class Camera extends BaseComponent
             Transform.translate(this.transform, new Vector3f(speed * (float) Time.getDeltaTime(), 0,0));
         }
     }
+
+    @Override
+    public void dispose() {
+
+    }
 }

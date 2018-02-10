@@ -9,6 +9,7 @@ public abstract class BaseComponent {
 
     public abstract void start();
     public abstract void update();
+    public abstract void dispose();
 
     public void setGameObject(GameObject gameObject){
         if (this.gameObject != null)

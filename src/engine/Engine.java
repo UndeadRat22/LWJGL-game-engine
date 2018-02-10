@@ -2,7 +2,8 @@ package engine;
 
 import mesh.Loader;
 import mesh.Mesh;
-import mesh.Model;
+import objects.components.BaseComponent;
+import objects.components.Model;
 import mesh.ObjParser;
 import mesh.textures.Texture;
 import objects.components.Camera;
@@ -50,7 +51,8 @@ public class Engine
         display = new Display(WIDTH, HEIGHT, TITLE, FPS);
         shader = new StaticShader();
         renderer = new Renderer(display, shader);
-        display.setWindowKeyInputCallback(new Input());
+        display.setWindowKeyInputCallback(Input.getKeyCallback());
+        display.setWindowMouseMoveCallback(Input.getCursorPositionCallback());
         game = new Game();
     }
 
@@ -59,17 +61,17 @@ public class Engine
         Texture texture = new Texture("resources/cruiser.png");
         Mesh mesh = ObjParser.parseObjMesh("resources/obj/cruiser.obj");
         Model model = new Model(mesh, texture);
-        GameObject cameraGo = new GameObject(null,
+        GameObject cameraGo = new GameObject(
                 new Vector3f(0, 0, 0),
                 new Vector3f(0, 0, 0),
                 new Vector3f(0, 0, 0));
-        camera = new Camera();
-        cameraGo.addComponent(camera);
-        gameObject = new GameObject(model,
+        camera = (Camera) cameraGo.addComponent(new Camera());
+        gameObject = new GameObject(
                 new Vector3f(0, 0, -5),
                 new Vector3f(0, 0, 0),
                 new Vector3f(1f, 1f, 1f));
-        GameObject lightGo = new GameObject(null,
+        gameObject.addComponent(model);
+        GameObject lightGo = new GameObject(
                 new Vector3f(0, 0, 0),
                 new Vector3f(0, 0, 0),
                 new Vector3f(0, 0, 0));
