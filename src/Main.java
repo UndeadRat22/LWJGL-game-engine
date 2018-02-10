@@ -3,11 +3,11 @@ import mesh.Loader;
 import mesh.Mesh;
 import engine.Renderer;
 import mesh.Model;
+import mesh.ObjParser;
 import mesh.textures.Texture;
 import objects.Camera;
 import objects.GameObject;
 import org.joml.Vector3f;
-import primitives.Transform;
 import shaders.StaticShader;
 import utility.Maths;
 
@@ -94,7 +94,8 @@ public class Main {
         };
 
         Display display = new Display(1280, 720, "window");
-        Mesh mesh = new Mesh(vertices, uv, indices);
+        //Mesh mesh = new Mesh(vertices, uv, indices);
+        Mesh mesh = ObjParser.parseObjMesh("house_obj");
         Texture texture = new Texture("resources/test_texture.png");
         Model model = new Model(mesh, texture);
         StaticShader shader = new StaticShader();
@@ -103,12 +104,13 @@ public class Main {
         display.setWindowKeyInputCallback(camera.getGlfwKeyCallback());
 
         GameObject go = new GameObject(model,
-                new Vector3f(0, 0, -5),
+                new Vector3f(0, 0, -10),
                 new Vector3f(0, 0, 0),
-                new Vector3f(1, 1, 1));
+                new Vector3f(.01f, .01f, .01f));
         Vector3f rotation = new Vector3f();
         while (!display.isCloseRequested())
         {
+            //rotation.x += 2f;
             //rotation.y += 2f;
             //Transform.translate(go.getTransform(), new Vector3f(0f, 0, -0.02f));
             go.getTransform().setRotation(rotation);
