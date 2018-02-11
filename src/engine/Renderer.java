@@ -9,6 +9,7 @@ import org.joml.Matrix4f;
 import shaders.StaticShader;
 import utility.Maths;
 
+import javax.jws.WebParam;
 import javax.xml.soap.Text;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -39,7 +40,10 @@ public class Renderer {
     }
 
     public void render(GameObject gameObject, StaticShader shader){
-        Model model = (Model)gameObject.getComponent(Model.class);
+        //Model model = (Model)gameObject.getComponent(Model.class);
+
+        //Model model = gameObject.getComponent<Model>();
+        Model model = gameObject.getComponent(Model.class);
         Mesh mesh = model.getMesh();
         glBindVertexArray(mesh.getVao());
         glEnableVertexAttribArray(0);

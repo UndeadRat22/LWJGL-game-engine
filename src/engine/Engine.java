@@ -3,7 +3,6 @@ package engine;
 import mesh.Loader;
 import mesh.Material;
 import mesh.Mesh;
-import objects.components.BaseComponent;
 import objects.components.Model;
 import mesh.ObjParser;
 import mesh.textures.Texture;

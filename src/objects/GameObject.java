@@ -27,14 +27,22 @@ public class GameObject {
         }
     }
 
-    public BaseComponent getComponent(Class<?> type){
+    public <T> T getComponent(Class<?> type){
         for (BaseComponent component : components)
             if (type == component.getClass())
-                return component;
+                return (T) component;
         return null;
     }
+
+    /*public <T> T getComponent(){
+        for (BaseComponent component : components)
+            if (T.getClass() == components.getClass())
+                return (T) component;
+        return null;
+    }
+
     //TODO: GENERIC addComponent method, aka: learn generics xd
-    /*public BaseComponent addComponent(Class<BaseComponent> type){
+    public BaseComponent addComponent(Class<BaseComponent> type){
         BaseComponent component = null;
         try {
             component = type.newInstance();
