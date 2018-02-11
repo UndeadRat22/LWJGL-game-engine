@@ -21,10 +21,7 @@ public class Engine
     private static final int FPS = 60;
 
     private RenderManager m_renderer;
-    private Light light;
-    private GameObject gameObject;
     private Display display;
-    private Camera camera;
     private Game game;
     private boolean isRunning;
 
@@ -58,24 +55,7 @@ public class Engine
 
     private void run(){
         if (isRunning) return;
-        Texture texture = new Texture("resources/cruiser.png");
-        Mesh mesh = ObjParser.parseObjMesh("resources/obj/cruiser.obj");
-        Model model = new Model(mesh, texture, new Material(.1f, 1));
-        GameObject cameraGo = new GameObject(
-                new Vector3f(0, 0, 0),
-                new Vector3f(0, 0, 0),
-                new Vector3f(0, 0, 0));
-        camera = (Camera) cameraGo.addComponent(new Camera());
-        gameObject = new GameObject(
-                new Vector3f(0, 0, -5),
-                new Vector3f(0, 0, 0),
-                new Vector3f(1f, 1f, 1f));
-        gameObject.addComponent(model);
-        GameObject lightGo = new GameObject(
-                new Vector3f(0, 10, -10),
-                new Vector3f(0, 0, 0),
-                new Vector3f(0, 0, 0));
-        light = (Light) lightGo.addComponent(new Light());
+        game.start();
         isRunning = true;
         boolean render = false;
         final double frameTime = 1.0 / FPS;
@@ -94,8 +74,6 @@ public class Engine
                     stop();
 
                 Time.setDeltaTime(frameTime);
-
-                game.input();
                 game.update();
             }
             if (render)
@@ -111,15 +89,12 @@ public class Engine
     }
 
     private void render(){
-        light.getGameObject().update();
-        camera.getGameObject().update();
-        gameObject.update();
-
-        m_renderer.queueGameObject(gameObject);
-        m_renderer.render(light, camera);
+        game.getGameObjectsToRender().forEach(
+                gameObject -> {m_renderer.queueGameObject(gameObject);}
+        );
+        m_renderer.render(game.getMainLight(), game.getMainCamera());
 
         display.update();
-        game.render();
     }
 
     private void cleanUp(){
