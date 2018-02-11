@@ -12,6 +12,9 @@ import utility.Maths;
 import javax.jws.WebParam;
 import javax.xml.soap.Text;
 
+import java.util.List;
+import java.util.Map;
+
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL13.*;
 import static org.lwjgl.opengl.GL20.*;
@@ -24,9 +27,11 @@ public class Renderer {
     private static final float FAR_PLANE = 1000.0f;
 
     private Display display;
+    private StaticShader shader;
 
     public Renderer(Display display, StaticShader shader){
         this.display = display;
+        this.shader = shader;
         shader.start();
         shader.loadProjectionMatrix(createProjectionMatrix());
         shader.stop();
@@ -39,28 +44,40 @@ public class Renderer {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
-    public void render(GameObject gameObject, StaticShader shader){
-        //Model model = (Model)gameObject.getComponent(Model.class);
+    public void render(Map<Model, List<GameObject>> gameObjects){
+        for (Model m : gameObjects.keySet()){
+            prepareModel(m);
+            List<GameObject> instances = gameObjects.get(m);
+            for (GameObject instance : instances) {
+                prepareInstance(instance);
+                glDrawElements(GL_TRIANGLES, m.getMesh().getTriangles(), GL_UNSIGNED_INT, 0);
+            }
+            unbindModel();
+        }
+    }
 
-        //Model model = gameObject.getComponent<Model>();
-        Model model = gameObject.getComponent(Model.class);
+    private void prepareModel(Model model){
         Mesh mesh = model.getMesh();
         glBindVertexArray(mesh.getVao());
         glEnableVertexAttribArray(0);
         glEnableVertexAttribArray(1);
         glEnableVertexAttribArray(2);
-        Matrix4f transformationMatrix =
-                Maths.createTransformationMatrix(gameObject.getTransform());
-        shader.loadTransformationMatrix(transformationMatrix);
         shader.loadMaterial(model.getMaterial());
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, model.getTexture().getTextureID());
-        glDrawElements(GL_TRIANGLES, mesh.getTriangles(), GL_UNSIGNED_INT, 0);
+    }
+
+    private void unbindModel(){
         glDisableVertexAttribArray(2);
         glDisableVertexAttribArray(1);
         glDisableVertexAttribArray(0);
         glBindVertexArray(0);
+    }
 
+    private void prepareInstance(GameObject gameObject){
+        Matrix4f transformationMatrix =
+                Maths.createTransformationMatrix(gameObject.getTransform());
+        shader.loadTransformationMatrix(transformationMatrix);
     }
 
     private Matrix4f createProjectionMatrix(){

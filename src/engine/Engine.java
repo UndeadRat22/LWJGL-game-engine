@@ -20,10 +20,9 @@ public class Engine
     private static final String TITLE = "ENGINE";
     private static final int FPS = 60;
 
+    private RenderManager m_renderer;
     private Light light;
     private GameObject gameObject;
-    private StaticShader shader;
-    private Renderer renderer;
     private Display display;
     private Camera camera;
     private Game game;
@@ -49,8 +48,9 @@ public class Engine
 
     private void init(){
         display = new Display(WIDTH, HEIGHT, TITLE + " " +WIDTH + "x" +HEIGHT, FPS);
-        shader = new StaticShader();
-        renderer = new Renderer(display, shader);
+        StaticShader shader = new StaticShader();
+        Renderer renderer = new Renderer(display, shader);
+        m_renderer = new RenderManager(shader, renderer);
         display.setWindowKeyInputCallback(Input.getKeyCallback());
         display.setWindowMouseMoveCallback(Input.getCursorPositionCallback());
         game = new Game();
@@ -114,19 +114,17 @@ public class Engine
         light.getGameObject().update();
         camera.getGameObject().update();
         gameObject.update();
-        renderer.prepare();
-        shader.start();
-        shader.loadViewMatrix(Maths.createViewMatrix(camera));
-        shader.loadLight(light);
-        renderer.render(gameObject ,shader);
-        shader.stop();
+
+        m_renderer.queueGameObject(gameObject);
+        m_renderer.render(light, camera);
+
         display.update();
         game.render();
     }
 
     private void cleanUp(){
         Loader.discardData();
-        shader.discardProgram();
+        m_renderer.cleanUp();
         display.close();
     }
 }
