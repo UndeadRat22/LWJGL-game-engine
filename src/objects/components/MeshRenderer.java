@@ -1,24 +1,6 @@
 package objects.components;
 
-import engine.Display;
-import engine.Engine;
 import engine.RenderManager;
-import mesh.Mesh;
-import objects.components.BaseComponent;
-import objects.components.Model;
-import objects.GameObject;
-import org.joml.Matrix4f;
-import shaders.StaticShader;
-import utility.Maths;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL13.*;
-import static org.lwjgl.opengl.GL20.*;
-import static org.lwjgl.opengl.GL30.*;
 
 public class MeshRenderer extends BaseComponent {
 
@@ -35,7 +17,8 @@ public class MeshRenderer extends BaseComponent {
 
     @Override
     public void update() {
-
+        if (model.isDisabled())
+            RenderManager.unqueueGameObject(gameObject);
     }
 
     @Override
@@ -50,11 +33,11 @@ public class MeshRenderer extends BaseComponent {
 
     @Override
     protected void onEnable() {
-
+        RenderManager.queueGameObject(gameObject);
     }
 
     @Override
     protected void onDisable() {
-
+        RenderManager.unqueueGameObject(gameObject);
     }
 }

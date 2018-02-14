@@ -13,7 +13,7 @@ public class Camera extends BaseComponent
     private float speed = 2f;
     private float sensitivity = 0.05f;
 
-    public boolean disableControls = false;
+    public boolean disableControls = true;
 
     @Override
     public void start() {

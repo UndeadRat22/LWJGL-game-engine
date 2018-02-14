@@ -1,6 +1,8 @@
 package objects;
 
+import engine.BaseGame;
 import engine.Game;
+import engine.Time;
 import objects.components.BaseComponent;
 import org.joml.Vector3f;
 import primitives.Transform;
@@ -65,6 +67,15 @@ public class GameObject {
         return (GameObject[]) objects.toArray();
     }
 
+    private static double prev_time = 0;
+
+    public static void UpdateAll(BaseGame game){
+        if (game == null)
+            return;
+        for (GameObject go : gameObjects)
+            go.update();
+    }
+
     public static void Destroy(GameObject go){
         go.disabled = true;
         gameObjects.remove(go);
@@ -92,7 +103,7 @@ public class GameObject {
     public void update(){
         if (disabled) return;
         for (BaseComponent component : components){
-            if (component.disabled)
+            if (component.isDisabled())
                 continue;
             component.update();
         }
@@ -105,12 +116,12 @@ public class GameObject {
         return null;
     }
 
-    public BaseComponent addComponent(BaseComponent component){
+    public <T> T addComponent(BaseComponent component){
         component.setGameObject(this);
         components.add(component);
         component.onAdd();
         component.start();
-        return component;
+        return (T) component;
     }
 
     public void removeComponent(Class<?> type){

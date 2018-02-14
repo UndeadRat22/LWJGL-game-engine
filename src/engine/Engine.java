@@ -11,7 +11,7 @@ public class Engine
     private static final int FPS = 60;
 
     private static RenderManager m_renderer;
-    private static Game game;
+    private static BaseGame game;
     private static boolean isRunning;
 
     public static Display display;
@@ -38,6 +38,7 @@ public class Engine
         display.setWindowMouseMoveCallback(Input.getCursorPositionCallback());
         RenderManager.initialize();
         game = new Game();
+        game.initialize();
     }
 
     private static void run(){
@@ -61,6 +62,7 @@ public class Engine
                     stop();
 
                 Time.setDeltaTime(frameTime);
+                game.updateGameObjects();
                 game.update();
             }
             if (render)
@@ -76,17 +78,13 @@ public class Engine
     }
 
     private static void render(){
-        game.getGameObjectsToRender().forEach(
-                gameObject -> {m_renderer.queueGameObject(gameObject);}
-        );
-        m_renderer.renderGameObjects(game.getMainLight(), game.getMainCamera());
-
+        game.draw();
         display.update();
     }
 
     private static void cleanUp(){
         Loader.discardData();
-        m_renderer.cleanUp();
+        RenderManager.cleanUp();
         display.close();
     }
 }

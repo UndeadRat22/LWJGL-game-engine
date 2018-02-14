@@ -28,6 +28,16 @@ public class Light extends BaseComponent {
 
     }
 
+    @Override
+    protected void onEnable() {
+
+    }
+
+    @Override
+    protected void onDisable() {
+
+    }
+
     public void setColour(Vector3f colour){
         this.colour = colour;
     }

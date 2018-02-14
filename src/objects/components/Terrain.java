@@ -14,25 +14,4 @@ public class Terrain extends Model {
     public Terrain(Mesh m, Texture t, Material material) {
         super(m, t, material);
     }
-
-
-    @Override
-    public void start() {
-
-    }
-
-    @Override
-    public void update() {
-
-    }
-
-    @Override
-    public void dispose() {
-
-    }
-
-    @Override
-    public void onAdd() {
-
-    }
 }

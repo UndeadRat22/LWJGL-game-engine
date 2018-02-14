@@ -1,5 +1,6 @@
 package engine;
 
+import javafx.util.Pair;
 import mesh.Mesh;
 import objects.GameObject;
 import objects.components.Camera;
@@ -42,8 +43,19 @@ public class RenderManager {
         glCullFace(GL_BACK);
     }
 
-    public static void queueModel(Model model, Transform transform){
 
+    ///the passed object will no longer be rendered on screen;
+    public static void unqueueGameObject(GameObject gameObject){
+        Model key = gameObject.getComponent(Model.class);
+        List<GameObject> instances = gameObjects.get(key);
+        for (GameObject go : instances) {
+            if (go == gameObject){
+                instances.remove(gameObject);
+                if (instances.isEmpty())
+                    gameObjects.remove(key);
+                return;
+            }
+        }
     }
 
     public static void queueGameObject(GameObject gameObject) {
@@ -65,7 +77,6 @@ public class RenderManager {
         staticShader.loadViewMatrix(Maths.createViewMatrix(camera));
         renderGameObjects();
         staticShader.stop();
-        gameObjects.clear();
     }
 
     private static void prepare(){

@@ -47,4 +47,14 @@ public class Model extends BaseComponent{
     public void onAdd() {
 
     }
+
+    @Override
+    protected void onEnable() {
+
+    }
+
+    @Override
+    protected void onDisable() {
+
+    }
 }
