@@ -11,6 +11,10 @@ public abstract class BaseComponent {
     public abstract void update();
     public abstract void dispose();
     public abstract void onAdd();
+    protected abstract void onEnable();
+    protected abstract void onDisable();
+
+    private boolean disabled;
 
     public void setGameObject(GameObject gameObject){
         if (this.gameObject != null)
@@ -25,5 +29,23 @@ public abstract class BaseComponent {
 
     public Transform getTransform() {
         return transform;
+    }
+
+    public boolean isDisabled(){
+        return disabled;
+    }
+
+    public boolean isEnabled(){
+        return !disabled;
+    }
+
+    public void disable(){
+        disabled = true;
+        onDisable();
+    }
+
+    public void enable(){
+        disabled = false;
+        onEnable();
     }
 }

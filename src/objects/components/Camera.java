@@ -13,6 +13,8 @@ public class Camera extends BaseComponent
     private float speed = 2f;
     private float sensitivity = 0.05f;
 
+    public boolean disableControls = false;
+
     @Override
     public void start() {
 
@@ -20,6 +22,7 @@ public class Camera extends BaseComponent
 
     @Override
     public void update() {
+        if (disableControls) return;
         if (Input.getKey(GLFW_KEY_A)){
             strafe(speed * (float)Time.getDeltaTime());
         } else if (Input.getKey(GLFW_KEY_D)){
@@ -46,6 +49,16 @@ public class Camera extends BaseComponent
 
     @Override
     public void onAdd() {
+
+    }
+
+    @Override
+    protected void onEnable() {
+
+    }
+
+    @Override
+    protected void onDisable() {
 
     }
 

@@ -1,5 +1,6 @@
 package utility;
 
+import engine.Engine;
 import objects.components.Camera;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
@@ -28,5 +29,21 @@ public class Maths {
         Vector3f inversePos = new Vector3f(-position.x, -position.y, -position.z);
         matrix.translate(inversePos);
         return matrix;
+    }
+
+    public static Matrix4f createProjectionMatrix(float FAR_PLANE, float NEAR_PLANE, float FOV){
+        float aspecpectRatio = (float) Engine.display.getDimensions().x / Engine.display.getDimensions().y;
+        float yscale = (float) ((1f/Math.tan(Math.toRadians((FOV/2f))))*aspecpectRatio);
+        float xscale = yscale / aspecpectRatio;
+        float frustumLen = FAR_PLANE - NEAR_PLANE;
+
+        Matrix4f projectionMatrix = new Matrix4f();
+        projectionMatrix.m00(xscale);
+        projectionMatrix.m11(yscale);
+        projectionMatrix.m22(-(FAR_PLANE + NEAR_PLANE)/frustumLen);
+        projectionMatrix.m23(-1);
+        projectionMatrix.m32(-(2 * FAR_PLANE * NEAR_PLANE)/frustumLen);
+        projectionMatrix.m33(0);
+        return projectionMatrix;
     }
 }

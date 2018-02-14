@@ -7,6 +7,7 @@ import mesh.textures.Texture;
 import objects.GameObject;
 import objects.components.Camera;
 import objects.components.Light;
+import objects.components.MeshRenderer;
 import objects.components.Model;
 import org.joml.Vector3f;
 
@@ -25,24 +26,29 @@ public class Game {
     }
     //Instantiate all of the GameObjects here;
     public void start(){
-        Texture texture = new Texture("resources/cruiser.png");
-        Mesh mesh = ObjParser.parseObjMesh("resources/obj/cruiser.obj");
+        Texture texture = new Texture("resources/test_texture.png");
+        Mesh mesh = ObjParser.parseObjMesh("resources/obj/cube2.obj");
         Model model = new Model(mesh, texture, new Material(.1f, 1));
         GameObject cameraGo = new GameObject(
                 new Vector3f(0, 0, 0),
                 new Vector3f(0, 0, 0),
                 new Vector3f(0, 0, 0));
         mainCamera = (Camera) cameraGo.addComponent(new Camera());
+        cameraGo.name = "Camera";
         GameObject gameObject = new GameObject(
                 new Vector3f(0, 0, -5),
                 new Vector3f(0, 0, 0),
-                new Vector3f(1f, 1f, 1f));
+                new Vector3f(.01f, .01f, .01f));
         gameObject.addComponent(model);
+        MeshRenderer meshRenderer = new MeshRenderer();
+        gameObject.addComponent(meshRenderer);
+        gameObject.name = "modeled object";
         GameObject lightGo = new GameObject(
                 new Vector3f(0, 10, -10),
                 new Vector3f(0, 0, 0),
                 new Vector3f(0, 0, 0));
         mainLight = (Light) lightGo.addComponent(new Light());
+        gameObject.name = "light";
         gameObjects.add(cameraGo);
         gameObjects.add(lightGo);
         gameObjects.add(gameObject);

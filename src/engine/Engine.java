@@ -1,17 +1,7 @@
 package engine;
 
 import mesh.Loader;
-import mesh.Material;
-import mesh.Mesh;
-import objects.components.Model;
-import mesh.ObjParser;
-import mesh.textures.Texture;
-import objects.components.Camera;
-import objects.GameObject;
-import objects.components.Light;
-import org.joml.Vector3f;
 import shaders.StaticShader;
-import utility.Maths;
 
 public class Engine
 {
@@ -20,40 +10,37 @@ public class Engine
     private static final String TITLE = "ENGINE";
     private static final int FPS = 60;
 
-    private RenderManager m_renderer;
-    private Display display;
-    private Game game;
-    private boolean isRunning;
+    private static RenderManager m_renderer;
+    private static Game game;
+    private static boolean isRunning;
 
-    public Engine(){
-        isRunning = false;
-    }
+    public static Display display;
+    public static StaticShader staticShader;
 
-    public void start(){
+    public static void start(){
         if(isRunning)
             return;
         init();
         run();
     }
 
-    public void stop(){
+    public static void stop(){
         if (!isRunning)
             return;
         isRunning = false;
         cleanUp();
     }
 
-    private void init(){
+    private static void init(){
         display = new Display(WIDTH, HEIGHT, TITLE + " " +WIDTH + "x" +HEIGHT, FPS);
-        StaticShader shader = new StaticShader();
-        Renderer renderer = new Renderer(display, shader);
-        m_renderer = new RenderManager(shader, renderer);
+        staticShader = new StaticShader();
         display.setWindowKeyInputCallback(Input.getKeyCallback());
         display.setWindowMouseMoveCallback(Input.getCursorPositionCallback());
+        RenderManager.initialize();
         game = new Game();
     }
 
-    private void run(){
+    private static void run(){
         if (isRunning) return;
         game.start();
         isRunning = true;
@@ -88,16 +75,16 @@ public class Engine
         }
     }
 
-    private void render(){
+    private static void render(){
         game.getGameObjectsToRender().forEach(
                 gameObject -> {m_renderer.queueGameObject(gameObject);}
         );
-        m_renderer.render(game.getMainLight(), game.getMainCamera());
+        m_renderer.renderGameObjects(game.getMainLight(), game.getMainCamera());
 
         display.update();
     }
 
-    private void cleanUp(){
+    private static void cleanUp(){
         Loader.discardData();
         m_renderer.cleanUp();
         display.close();
