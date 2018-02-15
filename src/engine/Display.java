@@ -1,11 +1,11 @@
 package engine;
 
+import org.joml.Vector2f;
 import org.joml.Vector2i;
-import org.lwjgl.glfw.GLFWCursorPosCallback;
-import org.lwjgl.glfw.GLFWErrorCallback;
-import org.lwjgl.glfw.GLFWKeyCallback;
-import org.lwjgl.glfw.GLFWVidMode;
+import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.GL;
+
+import java.util.Vector;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -13,6 +13,7 @@ import static org.lwjgl.opengl.GL11.*;
 public class Display
 {
     private long window;    /*Display window handle.*/
+    private Vector2i center;
 
     ///Creates a display of specified width, height and title.
     ///Also opens the window.
@@ -38,6 +39,7 @@ public class Display
         centerWindow();
 
         glfwMakeContextCurrent(window);
+        glfwSetCursorPos(window, center.x, center.y);
         glfwShowWindow(window);
 
         GL.createCapabilities();
@@ -61,18 +63,22 @@ public class Display
         glfwSetKeyCallback(window, callback);
     }
 
+    public void setWindowResizeCallback(GLFWWindowSizeCallback callback){
+        glfwSetWindowSizeCallback(window, callback);
+    }
+
     public void setWindowMouseMoveCallback(GLFWCursorPosCallback callback){
         glfwSetCursorPosCallback(window, callback);
     }
 
+    public Vector2i getCenter(){
+        return center;
+    }
+
     ///centers the window on the primary monitor
     public void centerWindow(){
-        long monitor = glfwGetPrimaryMonitor();
-        GLFWVidMode mode = glfwGetVideoMode(monitor);
-        Vector2i dimensions = getDimensions();
-        glfwSetWindowPos(window,
-                (mode.width()  - dimensions.x)/2,
-                (mode.height() - dimensions.y)/2);
+        updateCenter();
+        glfwSetWindowPos(window, center.x, center.y);
     }
 
     public Vector2i getDimensions(){
@@ -80,4 +86,15 @@ public class Display
         glfwGetWindowSize(window, width, height);
         return new Vector2i(width[0], height[0]);
     }
+
+
+    public void updateCenter(){
+        long monitor = glfwGetPrimaryMonitor();
+        GLFWVidMode mode = glfwGetVideoMode(monitor);
+        Vector2i dimensions = getDimensions();
+        center = new Vector2i(
+                (mode.width()  - dimensions.x)/2,
+                (mode.height() - dimensions.y)/2);
+    }
+
 }

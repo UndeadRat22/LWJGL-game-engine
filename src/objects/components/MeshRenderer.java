@@ -6,7 +6,6 @@ public class MeshRenderer extends BaseComponent {
 
     private Model model;
     private boolean queued;
-    private boolean modelDisabled;
 
     @Override
     public void start() {

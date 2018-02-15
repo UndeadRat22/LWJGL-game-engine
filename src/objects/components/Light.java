@@ -7,12 +7,18 @@ import primitives.Transform;
 
 public class Light extends BaseComponent {
 
-    private Vector3f colour = new Vector3f(1, 1, 1);
+    private static Vector3f RED = new Vector3f(1, 0, 0);
+    private static Vector3f GREEN = new Vector3f(0, 1, 0);
+    private static Vector3f BLUE = new Vector3f(0, 0, 1);
+    private static Vector3f WHITE = new Vector3f(1, 1, 1);
+
+    private Vector3f colour = new Vector3f(WHITE);
 
     @Override
     public void start() {
 
     }
+
     @Override
     public void update(){
 

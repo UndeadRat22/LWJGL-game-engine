@@ -12,14 +12,14 @@ public abstract class BaseGame {
 
     public final void initialize(){
         GameObject camera = new GameObject(
-                new Vector3f(0, 0, 10),
+                new Vector3f(0, 0, 0),
                 new Vector3f(0, 0, 0),
                 new Vector3f(0, 0, 0));
         camera.name = "Main Camera";
         camera.tag = "Main";
         main = camera.addComponent(new Camera());
         GameObject light = new GameObject(
-                new Vector3f(0, 10, 0),
+                new Vector3f(0, 50, 0),
                 new Vector3f(0, 0, 0),
                 new Vector3f(0, 0, 0));
         sun = light.addComponent(new Light());
@@ -30,11 +30,13 @@ public abstract class BaseGame {
     public abstract void start();
     public abstract void update();
 
-    //DO NOT CALL THIS, CAN ONLY BE CALLED FROM THE ENGINE
+    ///DO NOT CALL THIS, CAN ONLY BE CALLED FROM THE ENGINE
     public final void updateGameObjects(){
         GameObject.UpdateAll( this);
     }
 
+    ///IF YOU DECIDE TO OVERRIDE THIS:
+    ///Make sure to call the super.draw();
     public void draw(){
         RenderManager.renderGameObjects(sun, main);
     }

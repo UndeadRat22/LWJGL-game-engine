@@ -50,4 +50,5 @@ public class Transform {
     public static void rotate(Transform t, Vector3f rotation){
         t.rotation = t.rotation.add(rotation);
     }
+
 }

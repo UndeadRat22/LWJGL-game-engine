@@ -10,6 +10,9 @@ public class Engine
     private static final String TITLE = "ENGINE";
     private static final int FPS = 60;
 
+    private static int frames;
+    private static long frameCounter;
+
     private static RenderManager m_renderer;
     private static BaseGame game;
     private static boolean isRunning;
@@ -55,6 +58,7 @@ public class Engine
             lastTime = startTime;
 
             unprocessedTime += passedTime / (double)Time.SECOND;
+            frameCounter+= passedTime;
             while(unprocessedTime > frameTime) {
                 render = true;
                 unprocessedTime -= frameTime;
@@ -64,10 +68,18 @@ public class Engine
                 Time.setDeltaTime(frameTime);
                 game.updateGameObjects();
                 game.update();
+
+                if(frameCounter >= Time.SECOND){
+                    //use this if you want to see the framerate in the console.
+                    //System.out.println(frames);
+                    frames = 0;
+                    frameCounter = 0;
+                }
             }
-            if (render)
+            if (render) {
                 render();
-            else {
+                frames ++;
+            }else {
                 try {
                     Thread.sleep(1);
                 } catch (InterruptedException e) {
