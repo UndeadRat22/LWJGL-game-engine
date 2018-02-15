@@ -46,6 +46,8 @@ public class RenderManager {
 
     ///the passed object will no longer be rendered on screen;
     public static void unqueueGameObject(GameObject gameObject){
+        if (gameObject == null)
+             return;
         Model key = gameObject.getComponent(Model.class);
         List<GameObject> instances = gameObjects.get(key);
         for (GameObject go : instances) {

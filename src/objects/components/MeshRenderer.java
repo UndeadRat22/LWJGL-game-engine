@@ -5,6 +5,8 @@ import engine.RenderManager;
 public class MeshRenderer extends BaseComponent {
 
     private Model model;
+    private boolean queued;
+    private boolean modelDisabled;
 
     @Override
     public void start() {
@@ -13,12 +15,15 @@ public class MeshRenderer extends BaseComponent {
             model.disable();
             this.disable();
         }
+        queue();
     }
 
     @Override
     public void update() {
+        if (!queued)
+            return;
         if (model.isDisabled())
-            RenderManager.unqueueGameObject(gameObject);
+            unqueue();
     }
 
     @Override
@@ -27,17 +32,27 @@ public class MeshRenderer extends BaseComponent {
     }
 
     @Override
-    public void onAdd() {
+    public void awake() {
 
     }
 
     @Override
     protected void onEnable() {
-        RenderManager.queueGameObject(gameObject);
+        queue();
     }
 
     @Override
     protected void onDisable() {
+        unqueue();
+    }
+
+    private void queue(){
+        RenderManager.queueGameObject(gameObject);
+        queued = false;
+    }
+
+    private void unqueue(){
         RenderManager.unqueueGameObject(gameObject);
+        queued = false;
     }
 }

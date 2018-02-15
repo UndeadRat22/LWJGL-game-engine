@@ -1,8 +1,6 @@
 package objects;
 
 import engine.BaseGame;
-import engine.Game;
-import engine.Time;
 import objects.components.BaseComponent;
 import org.joml.Vector3f;
 import primitives.Transform;
@@ -77,6 +75,9 @@ public class GameObject {
     }
 
     public static void Destroy(GameObject go){
+        for (BaseComponent c: go.components )
+            c.dispose();
+
         go.disabled = true;
         gameObjects.remove(go);
     }
@@ -87,8 +88,8 @@ public class GameObject {
     private Transform transform;
 
     private boolean disabled;
-    public String name;
-    public String tag;
+    public String name = "";
+    public String tag = "";
 
     public GameObject(Vector3f position, Vector3f rotation, Vector3f scale) {
         components = new ArrayList<BaseComponent>();
@@ -109,7 +110,7 @@ public class GameObject {
         }
     }
 
-    public <T> T getComponent(Class<?> type){
+    public <T> T getComponent(Class<? extends BaseComponent> type){
         for (BaseComponent component : components)
             if (type == component.getClass())
                 return (T) component;
@@ -119,17 +120,18 @@ public class GameObject {
     public <T> T addComponent(BaseComponent component){
         component.setGameObject(this);
         components.add(component);
-        component.onAdd();
+        component.awake();
         component.start();
         return (T) component;
     }
 
-    public void removeComponent(Class<?> type){
+    public <T> T detatchComponent(Class<? extends BaseComponent> type){
         for (BaseComponent component : components)
             if (type == component.getClass()) {
                 component.dispose();
                 components.remove(component);
-                return;
+                return (T) component;
             }
+         return null;
     }
 }

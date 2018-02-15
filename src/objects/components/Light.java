@@ -24,7 +24,7 @@ public class Light extends BaseComponent {
     }
 
     @Override
-    public void onAdd() {
+    public void awake() {
 
     }
 

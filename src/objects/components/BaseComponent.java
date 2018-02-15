@@ -7,10 +7,10 @@ public abstract class BaseComponent {
     protected GameObject gameObject = null;
     protected Transform transform = null;
 
+    public abstract void awake();
     public abstract void start();
     public abstract void update();
     public abstract void dispose();
-    public abstract void onAdd();
     protected abstract void onEnable();
     protected abstract void onDisable();
 

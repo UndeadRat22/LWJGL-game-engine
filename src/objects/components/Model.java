@@ -44,7 +44,7 @@ public class Model extends BaseComponent{
     }
 
     @Override
-    public void onAdd() {
+    public void awake() {
 
     }
 

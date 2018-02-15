@@ -48,7 +48,7 @@ public class Camera extends BaseComponent
     }
 
     @Override
-    public void onAdd() {
+    public void awake() {
 
     }
 
